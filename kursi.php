@@ -44,8 +44,6 @@ $query2 = mysqli_query($koneksi,$sql2);
 while($row = mysqli_fetch_array($query2)){
     $seats_booked[] = $row['seats_booked'];
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +63,14 @@ while($row = mysqli_fetch_array($query2)){
     body {
       margin: 0;
       background-color: #ffffff;
+      animation: fadeIn 0.8s ease-out;
     }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
         * {
       margin: 0;
       padding: 0;
@@ -83,18 +88,18 @@ while($row = mysqli_fetch_array($query2)){
       z-index: 1000;
       border-radius: 0 0 50px 50px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-      animation: navFadeIn 1s ease-in-out;
+      animation: slideDown 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
-    @keyframes navFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+    
+    @keyframes slideDown {
+        from { 
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+        to { 
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 
     .logo {
@@ -102,12 +107,36 @@ while($row = mysqli_fetch_array($query2)){
       align-items: center;
       font-weight: bold;
       font-size: 28px;
+      animation: fadeInLeft 0.8s ease-out;
+    }
+    
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
 
     .logo img {
       margin-right: 10px;
       height: 50px;
       width: auto;
+      animation: rotateIn 0.8s ease-out;
+    }
+    
+    @keyframes rotateIn {
+        from {
+            transform: rotate(-90deg);
+            opacity: 0;
+        }
+        to {
+            transform: rotate(0);
+            opacity: 1;
+        }
     }
 
     nav a {
@@ -118,6 +147,18 @@ while($row = mysqli_fetch_array($query2)){
       font-size: 18px;
       position: relative;
       transition: all 0.4s ease;
+      animation: fadeInRight 0.8s ease-out;
+    }
+    
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
     }
 
     nav a::after {
@@ -146,8 +187,16 @@ while($row = mysqli_fetch_array($query2)){
       background-size: contain;
       border-radius: 50%;
       cursor: pointer;
-
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
     }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
     .profile a{
       text-decoration: none;
     }
@@ -193,15 +242,6 @@ while($row = mysqli_fetch_array($query2)){
       background: linear-gradient(to right, #ff1744, #e53935);
       transform: scale(1.05);
     }
-    /* .profile-icon {
-      width: 45px;
-      height: 45px;
-      background-image: url('userputih.jpg');
-      background-size: cover;
-      border-radius: 50%;
-      border: 2px solid white;
-    } */
-
 
     .posisi {
       text-align: center;
@@ -211,17 +251,50 @@ while($row = mysqli_fetch_array($query2)){
       font-size: 29px;
       margin-top: 30px;
       color: #b12a2a;
+      animation: textPop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
     }
+    
+    @keyframes textPop {
+        0% {
+            transform: scale(0.9);
+            opacity: 0;
+        }
+        50% {
+            transform: scale(1.05);
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    
     .border {
       width: 30%;
       margin: 5px auto;
       border: 1px solid #b12a2a;
-
+      animation: widthGrow 1s ease-out 0.3s both;
+    }
+    
+    @keyframes widthGrow {
+        from { width: 0; }
+        to { width: 30%; }
     }
 
     .judul {
       margin-top: 20px;
       color:rgba(0, 0, 0, 0.69);
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .judul .kecil{
@@ -235,7 +308,8 @@ while($row = mysqli_fetch_array($query2)){
       background-repeat: no-repeat;
       background-size: cover;
       color: white;
-      margin-top: 30px
+      margin-top: 30px;
+      animation: fadeIn 0.8s ease-out 0.5s both;
     }
 
     .background {
@@ -245,26 +319,46 @@ while($row = mysqli_fetch_array($query2)){
             height: 350px;
             border-radius: 15px;
             padding: 20px;
+            animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s both;
         }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
         .posisi2{
             display: flex;
             flex-direction: column;
             gap: 17px;
             margin-top: 30px;
-            
+            animation: fadeIn 0.8s ease-out 0.7s both;
         }
         .posisi2 label{
             cursor: default;  
             padding: 7px 12px;
             width: 35px;
-            
         }
         
          input[type="checkbox"]:checked + label {
             background-color: red;
             color: white;
             border: 2px solid #cccccc;
+            animation: pulseSmall 0.5s;
         }
+        
+        @keyframes pulseSmall {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
          label {
             padding: 7px 12px;
             border: 2px solid #cccccc;
@@ -274,9 +368,34 @@ while($row = mysqli_fetch_array($query2)){
             color:rgb(0, 0, 0);
             transition: all 0.2s ease-in-out;
             font-weight: bold;
-            
             margin-left: 10px;
+            animation: seatAppear 0.5s ease-out;
+            animation-fill-mode: both;
         }
+        
+        @keyframes seatAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Animasi untuk setiap baris kursi dengan delay berbeda */
+        .A1 label { animation-delay: 0.8s; }
+        .A2 label { animation-delay: 0.9s; }
+        .B1 label { animation-delay: 1.0s; }
+        .B2 label { animation-delay: 1.1s; }
+        .C1 label { animation-delay: 1.2s; }
+        .C2 label { animation-delay: 1.3s; }
+        .D1 label { animation-delay: 1.4s; }
+        .D2 label { animation-delay: 1.5s; }
+        .E1 label { animation-delay: 1.6s; }
+        .E2 label { animation-delay: 1.7s; }
+        
         input[type="checkbox"] {
             display: none;
         }
@@ -358,7 +477,7 @@ while($row = mysqli_fetch_array($query2)){
             left: 1200px;
             top: 355px;
             background-color: white;
-            
+            animation: fadeIn 0.8s ease-out 1.8s both;
         }
         .tempat1 {
             color: black;
@@ -367,6 +486,7 @@ while($row = mysqli_fetch_array($query2)){
             position: absolute;
             left: 1250px;
             top: 360px;
+            animation: fadeIn 0.8s ease-out 1.8s both;
         }
 
         .memilih {
@@ -379,7 +499,7 @@ while($row = mysqli_fetch_array($query2)){
             position: absolute;
             left: 1200px;
             top: 420px;
-            
+            animation: fadeIn 0.8s ease-out 1.9s both;
         }
         .tempat2 {
             color: black;
@@ -388,6 +508,7 @@ while($row = mysqli_fetch_array($query2)){
             position: absolute;
             left: 1250px;
             top: 425px;
+            animation: fadeIn 0.8s ease-out 1.9s both;
         }
 
         .terbooking {
@@ -400,7 +521,7 @@ while($row = mysqli_fetch_array($query2)){
             position: absolute;
             left: 1200px;
             top: 490px;
-            
+            animation: fadeIn 0.8s ease-out 2.0s both;
         }
         .tempat3 {
             color: black;
@@ -409,6 +530,7 @@ while($row = mysqli_fetch_array($query2)){
             position: absolute;
             left: 1250px;
             top: 495px;
+            animation: fadeIn 0.8s ease-out 2.0s both;
         }
 
         input[type="submit"] {
@@ -424,6 +546,17 @@ while($row = mysqli_fetch_array($query2)){
             cursor: pointer;
             margin-top: 90px;
             margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out 2.1s both;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(221, 68, 68, 0.3);
+        }
+        
+        input[type="submit"]:active {
+            transform: translateY(1px);
         }
     </style>
 </head>
@@ -462,6 +595,33 @@ while($row = mysqli_fetch_array($query2)){
         document.getElementById("dropdownMenu").classList.remove("active");
       }
     }
+    
+    // Animasi saat memilih kursi
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if(this.checked) {
+                const label = this.nextElementSibling;
+                label.style.animation = 'none';
+                label.offsetHeight; // Trigger reflow
+                label.style.animation = 'pulseSmall 0.5s';
+            }
+        });
+    });
+    
+    // Animasi hover untuk kursi
+    document.querySelectorAll('label[for^=""]').forEach(label => {
+        label.addEventListener('mouseenter', function() {
+            if(!this.previousElementSibling.disabled) {
+                this.style.transform = 'scale(1.05)';
+                this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+            }
+        });
+        
+        label.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+            this.style.boxShadow = 'none';
+        });
+    });
   </script>
 
   <div class="posisi">
