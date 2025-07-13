@@ -18,6 +18,14 @@ $no = 1;
 $total = 0;
 $total_jumlah = 0;
 
+$sql10 = "SELECT m.id_movies, m.title, m.genre, COUNT(b.id_bookings) AS total_booking FROM movies m LEFT JOIN bookings b ON m.id_movies = b.id_movies AND b.status = 'terverifikasi'
+          GROUP BY m.id_movies ORDER BY total_booking DESC";
+$query10 = mysqli_query($koneksi,$sql10);
+$ranking = 1;
+
+$sql11 = "SELECT * FROM bookings WHERE status IN ('terverifikasi','tertolak')";
+$query11 = mysqli_query($koneksi,$sql11);
+
 if(isset($_POST['bulan'])){
   $input = $_POST['bulan'];
   $bulan = substr($input, 5, 2); // ambil karakter ke-6 dan ke-7
@@ -782,18 +790,15 @@ button[type="submit"]:hover::after {
   </style>
 </head>
 <body>
-  < ></h2>
   <!-- Navbar -->
   <div class="navbar">
     <div class="logo"><i class="fas fa-film"></i> AZFATICKET.XXI</div>
   <div class="profile-container">
   <div class="profile-logo" id="profileLogo">
-    <img src="profile-image.jpg" alt="Profile">
+    <img src="userputih.jpg" alt="Profile">
   </div>
   <div class="profile-dropdown" id="profileDropdown">
     <ul>
-      <li>My Profile</li>
-      <li>AIZAR FARUQ HAHAHAHAH</li>
       <a href="logout.php"><li class="logout">Logout</li></a>
     </ul>
     </div>
@@ -810,6 +815,7 @@ button[type="submit"]:hover::after {
       <button onclick="showSection('transaksi')"><i class="fas fa-receipt"></i> DATA TRANSAKSI</button>      
       <button onclick="showSection('dashboard bookings')"><i class="fas fa-calendar-check"></i> DATA BOOKINGS</button>
       <button onclick="showSection('dashboard iklan')"><i class="fas fa-ad"></i> DATA IKLAN</button>
+      <button onclick="showSection('daftar verifikasi')"><i class="fas fa-solid fa-user-check"></i> Daftar Verifikasi</button>
       <button onclick="showSection('management artis')" ><i class="fas fa-solid fa-circle-user"></i>Management Artis</button>
       <button onclick="showSection('movie')"><i class="fas fa-film"></i> Management Movie</button>
       <button onclick="showSection('jadwal')"><i class="fas fa-clock"></i> Management Jadwal</button>
@@ -863,7 +869,7 @@ button[type="submit"]:hover::after {
             <td>--------------</td>
             <td>--------------</td>
             <td>--------------</td>
-            <td>--------------</td>
+            <td>-----------------------------------</td>
           </tr>
           <tr>
             <th></th>
@@ -881,7 +887,16 @@ button[type="submit"]:hover::after {
             <th>Genre</th>
             <th>Jumlah Peminat</th>
           </tr>
+          <?php while($rank = mysqli_fetch_assoc($query10)){ ?>
+            <tr>
+              <td><?= $ranking ?></td>
+              <td><?= $rank['title'] ?></td>
+              <td><?= $rank['genre'] ?></td>
+              <td><?= $rank['total_booking'] ?></td>
+            </tr>
+          <?php $ranking += 1; } ?>
         </table>
+
       </div>
       <div id="transaksi" class="section">
         <h1><i class="fas fa-receipt"></i> DATA TRANSAKSI</h1>
@@ -979,14 +994,48 @@ button[type="submit"]:hover::after {
             <?php }?>
         </table>
       </div>
-      
-      <div id="dashboard bookings" class="section">
+      <div id="dashboard bookings" class ="section">
         <h1><i class="fas fa-calendar-check"></i> DATA BOOKINGS</h1>
+        <table>
+          <tr>
+            <th>Id Bookings</th>
+            <th>Id Users</th>
+            <th>Seats Booked</th>
+            <th>Total Price</th>
+            <th>Booking Date</th>
+            <th>Booking Time</th>
+            <th>Id Movies</th>
+            <th>Status</th>
+          </tr>
+          <?php while($booking = mysqli_fetch_assoc($query11)){?>
+            <tr>
+              <td><?= $booking['id_bookings']; ?></td>
+              <td><?= $booking['id_users']; ?></td>
+              <td><?= $booking['seats_booked']; ?></td>
+              <td><?= $booking['total_price']; ?></td>
+              <td><?= $booking['booking_date']; ?></td>
+              <td><?= $booking['booking_time']; ?></td>
+              <td><?= $booking['id_movies']; ?></td>
+              <td><?= $booking['status']; ?></td>
+            </tr>
+          <?php }?>
+        </table>
+
+      </div>
+      <div id="daftar verifikasi" class="section">
+        <h1><i class="fas fa-solid fa-user-check"></i> DAFTAR VERIFIKASI</h1>
         
         <?php if(isset($_GET['success'])): ?>
             <div class="success-message">
                 <i class="fas fa-check-circle"></i> Booking berhasil diverifikasi!
             </div>
+        <?php endif; ?>
+
+        <?php if(isset($_GET['failed'])): ?>
+          <div class="success-message">
+            <i class="fas fa-check-circle"></i> Booking berhasil tertolak
+
+          </div>
         <?php endif; ?>
         
         <?php if(isset($_GET['error'])): ?>
@@ -1017,6 +1066,7 @@ button[type="submit"]:hover::after {
                 <td><?= htmlspecialchars($bookings['id_movies']) ?></td>
                 <td>
                     <a href="verifikasi_bookings.php?id=<?= $bookings['id_bookings'] ?>" class="verify-btn"><i class="fas fa-check"></i> Verifikasi</a>
+                    <a href="tolak_bookings.php?id=<?= $bookings['id_bookings']?>" class="verify-btn"><i class="fas fa-solid fa-xmark"></i> Tolak</a>
                 </td>
             </tr>
             <?php endwhile; ?>

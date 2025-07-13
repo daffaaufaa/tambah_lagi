@@ -1,17 +1,28 @@
 <?php
 include "koneksi.php";
 session_start();
+if (isset($_POST['id_movies']) || isset($_POST['tanggal']) || isset($_POST['waktu'])) {
+    $_SESSION['waktu'] = $_POST['waktu'];
+    $_SESSION['tanggal'] = $_POST['tanggal'];
+    $_SESSION['id_movies'] = $_POST['id_movies'];
+}
 if(!isset($_SESSION['username'])){
-  header("location:login.php");
-}
-if(!isset($_POST['id_movies']) || !isset($_POST['tanggal']) || !isset($_POST['waktu'])){
-  header("location:jadwal_film.php");
+  header("location:login.php?id=2");
 }
 
-$waktu = $_POST['waktu'];
-$tanggal = $_POST['tanggal'];
+if(isset($_SESSION['id_movies']) || isset($_SESSION['tanggal']) || isset($_SESSION['waktu'])){
+    $waktu = $_SESSION['waktu'];
+    $tanggal = $_SESSION['tanggal'];
+    $id_movies = $_SESSION['id_movies'];
+    unset($_SESSION['waktu']);
+    unset($_SESSION['tanggal']);
+    unset($_SESSION['id_movies']);
+}else{
+    $waktu = $_POST['waktu'];
+    $tanggal = $_POST['tanggal'];
+    $id_movies = $_POST['id_movies'];
+}
 
-$id_movies = $_POST['id_movies'];
 $sql = "SELECT * FROM movies WHERE id_movies = '$id_movies'";
 $query = mysqli_query($koneksi, $sql);
 

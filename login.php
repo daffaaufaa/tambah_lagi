@@ -1,6 +1,10 @@
 <?php
 include "koneksi.php";
 session_start();
+if(isset($_GET['id'])){
+    $id = $_GET['id'];
+}
+
 
 ?>
 
@@ -440,6 +444,7 @@ session_start();
             <div class="login-form">
                 <h3>Login</h3>
                 <form action="proses_login.php" method="post">
+                    <input type="hidden" name="id" value = "<?= $id ?>">
                     <div class="input-group">
                         <i class="fas fa-user"></i>
                         <input type="text" name="username" placeholder="Username" required>
