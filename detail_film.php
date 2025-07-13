@@ -326,7 +326,7 @@ $totalMenit = ($jam * 60) + $menit;
         <div class="pemeran-list">
           <?php while($artis= mysqli_fetch_assoc($query2)){ ?>
           <div class="pemeran-card">
-            <img src="artis\<?= $artis['artis_image']?>.jpg" alt="">
+            <img src="artis\<?= $artis['artis_image']?>" alt="">
             <?= ucfirst($artis['artis_name'])  ?>
           </div>
           <?php } ?>

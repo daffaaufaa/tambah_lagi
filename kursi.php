@@ -38,7 +38,7 @@ $c = 1;
 $d = 1;
 $e = 1;
 
-$sql2 = "SELECT seats_booked FROM bookings WHERE id_movies = '$id_movies' AND booking_date = '$tanggal' AND booking_time = '$waktu'";
+$sql2 = "SELECT seats_booked FROM bookings WHERE id_movies = '$id_movies' AND booking_date = '$tanggal' AND booking_time = '$waktu' AND status = 'terverifikasi'";
 $query2 = mysqli_query($koneksi,$sql2);
 
 while($row = mysqli_fetch_array($query2)){
@@ -338,6 +338,7 @@ while($row = mysqli_fetch_array($query2)){
             flex-direction: column;
             gap: 17px;
             margin-top: 30px;
+            margin-left: 10px;
             animation: fadeIn 0.8s ease-out 0.7s both;
         }
         .posisi2 label{
@@ -402,62 +403,62 @@ while($row = mysqli_fetch_array($query2)){
 
         .A1 {
             position: absolute;
-            left: 440px;
-            top: 330px;
+            left: 150px;
+            top: 60px;
         }
 
         .A2 {
             position: absolute;
-            left: 773px;
-            top: 330px;
+            left: 530px;
+            top: 60px;
         }
 
         .B1 {
             position: absolute;
-            left: 391px;
-            top: 385px;
+            left: 100px;
+            top: 111px;
         }
 
         .B2 {
             position: absolute;
-            left: 773px;
-            top: 385px;
+            left: 530px;
+            top: 111px;
         }
 
         .C1 {
             position: absolute;
-            left: 391px;
-            top: 439px;
+            left: 100px;
+            top: 163px;
         }
 
         .C2 {
             position: absolute;
-            left: 773px;
-            top: 439px;
+            left: 530px;
+            top: 163px;
         }
 
         .D1 {
             position: absolute;
-            left: 440px;
-            top: 493px;
+            left: 150px;
+            top: 215px;
         }
 
         .D2 {
             position: absolute;
-            left: 773px;
-            top: 493px;
+            left: 530px;
+            top: 215px;
         }
 
         .E1 {
             position: absolute;
-            left: 391px;
-            top: 546px;
+            left: 100px;
+            top: 267px;
         }
 
         .E2 {
             position: absolute;
-            left: 773px;
-            top: 546px;
+            left: 530px;
+            top: 267px;
         }
         
         input[type="checkbox"]:disabled + label {
@@ -474,8 +475,8 @@ while($row = mysqli_fetch_array($query2)){
             width: 30px;
             height: 30px;
             position: absolute;
-            left: 1200px;
-            top: 355px;
+            left: 970px;
+            top: 80px;
             background-color: white;
             animation: fadeIn 0.8s ease-out 1.8s both;
         }
@@ -484,8 +485,8 @@ while($row = mysqli_fetch_array($query2)){
             font-weight: bold;
             font-size: 18px;
             position: absolute;
-            left: 1250px;
-            top: 360px;
+            left: 1020px;
+            top: 85px;
             animation: fadeIn 0.8s ease-out 1.8s both;
         }
 
@@ -497,8 +498,8 @@ while($row = mysqli_fetch_array($query2)){
             width: 30px;
             height: 30px;
             position: absolute;
-            left: 1200px;
-            top: 420px;
+            left: 970px;
+            top: 140px;
             animation: fadeIn 0.8s ease-out 1.9s both;
         }
         .tempat2 {
@@ -506,21 +507,21 @@ while($row = mysqli_fetch_array($query2)){
             font-weight: bold;
             font-size: 18px;
             position: absolute;
-            left: 1250px;
-            top: 425px;
+            left: 1020px;
+            top: 145px;
             animation: fadeIn 0.8s ease-out 1.9s both;
         }
 
         .terbooking {
             padding: 7px 12px;
             background-color: rgb(185, 41, 41);
-            border: 2px solid rgb(255, 255, 255);
+            border: 2px solid #cccccc;
             border-radius: 5px;
             width: 30px;
             height: 30px;
             position: absolute;
-            left: 1200px;
-            top: 490px;
+            left: 970px;
+            top: 200px;
             animation: fadeIn 0.8s ease-out 2.0s both;
         }
         .tempat3 {
@@ -528,8 +529,8 @@ while($row = mysqli_fetch_array($query2)){
             font-weight: bold;
             font-size: 18px;
             position: absolute;
-            left: 1250px;
-            top: 495px;
+            left: 1020px;
+            top: 205px;
             animation: fadeIn 0.8s ease-out 2.0s both;
         }
 

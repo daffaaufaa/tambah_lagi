@@ -1,11 +1,6 @@
 <?php
 include "koneksi.php";
 session_start();
-$kursi = $_POST['kursi'];
-
-$waktu= $_POST['waktu'];
-$tanggal = $_POST['tanggal'];
-$total = $_POST['total'];
 
 $id_movies = $_POST['id_movies'];
 $sql = "SELECT * FROM movies WHERE id_movies = '$id_movies'";
@@ -37,7 +32,7 @@ $nm_kursi = [
      '57' => 'E8', '58' => 'E9', '59' => 'E10', '60' => 'E11' , '61' => 'E12', '62' => 'E13'
 ];
 
-
+$j = 1;
 $i = 1;
 if($movies['genre']=='horor'){
   $g = 1;
@@ -53,6 +48,18 @@ $query2 = mysqli_query($koneksi,$sql2);
 $users = mysqli_fetch_assoc($query2);
 
 $id_bookings = $_POST['id_bookings'];
+$stat = true;
+foreach ($id_bookings as $booking){
+  $sql3 = "SELECT status FROM bookings WHERE id_bookings = '$booking'";
+  $query3 = mysqli_query($koneksi, $sql3); 
+  $status = mysqli_fetch_assoc($query3);
+
+  if($status['status'] == "terverifikasi"){
+    $stat = false;
+  }
+
+}
+$method_payments = $_POST['method_payments'];
 $f = 1;
 ?>
 <!DOCTYPE html>
@@ -440,9 +447,96 @@ $f = 1;
         height: 200px;
       }
     }
+    /* === PREMIUM POPUP STYLES === */
+
+    .popup-container {
+      background: linear-gradient(135deg, #ff4d4d, #c62828);
+      color: white;
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 500px;
+      text-align: center;
+      position: relative;
+      transform: scale(0.8);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 20px 50px rgba(198, 40, 40, 0.5);
+    }
+
+
+    .popup-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      animation: rotate 15s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .popup-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .popup-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .popup-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .popup-message {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+
+
+    
   </style>
 </head>
 <body>
+  <?php if ($stat == true): ?>
+    <!-- INI BAGIAN LOADING -->
+  
+    <div class="popup-container">
+      <div class="popup-content">
+        <div class="popup-icon">⏳</div>
+        <h2 class="popup-title">Verifikasi Sedang Berlangsung</h2>
+        <p class="popup-message">Tunggu verifikasi admin untuk mendapatkan ticket Anda. Kami akan mengirimkan notifikasi begitu pembayaran Anda dikonfirmasi.</p>
+        
+      </div>
+    </div>
+
+  <script>
+    // Reload halaman setiap 5 detik untuk cek status lagi
+    setTimeout(function() {
+      location.reload();
+    }, 5000);
+  </script>
+
+<?php else: ?>
+  <!-- BAGIAN PRINT TIKET -->
   <a href="home.php">MOVIE</a>
 
   <main class="ticket-wrapper">
@@ -482,13 +576,19 @@ $f = 1;
         <div>
           <strong>ID ORDER</strong><br><?php foreach ($id_bookings as $id) {
           
-            if($i !== 1){
+            if($j !== 1){
                 echo ", ";
             }
-            $i += 1;
+            $j += 1;
 
             echo htmlspecialchars($id);
         }?>
+        </div>
+        <div>
+          <strong>PAYMENTS</strong>
+          <br>
+          <?= strtoupper($method_payments) ?>
+          
         </div>
       </div>
 
@@ -498,5 +598,9 @@ $f = 1;
 
     <button onclick="window.print()">PRINT</button>
   </main>
+
+<?php endif; ?>
+
+  
 </body>
 </html>

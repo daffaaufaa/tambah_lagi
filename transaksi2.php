@@ -189,10 +189,7 @@ $i = 1;
       transform: scale(1.05);
     }
     
-    
-    
-    
-
+    /* === TICKET CONTAINER === */
     .ticket-container {
       display: flex;
       margin: 0 auto;
@@ -389,7 +386,7 @@ $i = 1;
       }
     }
 
-    /* === TAMBAHAN UNTUK UPLOAD BUKTI === */
+    /* === PAYMENT METHOD === */
     .payment-method {
       margin-top: 20px;
       padding: 15px;
@@ -468,6 +465,115 @@ $i = 1;
       display: none;
     }
 
+    /* === PREMIUM POPUP STYLES === */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .popup-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .popup-container {
+      background: linear-gradient(135deg, #ff4d4d, #c62828);
+      color: white;
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 500px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transform: scale(0.8);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 20px 50px rgba(198, 40, 40, 0.5);
+    }
+
+    .popup-overlay.active .popup-container {
+      transform: scale(1);
+    }
+
+    .popup-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      animation: rotate 15s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .popup-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .popup-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .popup-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .popup-message {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .popup-close {
+      background: white;
+      color: #c62828;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .popup-close:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .popup-close:active {
+      transform: translateY(1px);
+    }
+
     /* Responsive design */
     @media (max-width: 768px) {
       .ticket-container {
@@ -490,6 +596,19 @@ $i = 1;
       
       .ticket-info h3 {
         font-size: 1.5rem;
+      }
+
+      .popup-container {
+        width: 90%;
+        padding: 30px 20px;
+      }
+
+      .popup-title {
+        font-size: 24px;
+      }
+
+      .popup-message {
+        font-size: 16px;
       }
     }
   </style>
@@ -556,7 +675,6 @@ $i = 1;
         <p class="total"><span>Total Pembayaran:</span> <span>Rp. <?= $total ?></span></p>
       </div>
       
-      <!-- TAMBAHAN FORM UPLOAD BUKTI PEMBAYARAN -->
       <form action="proses_transaksi.php" method="post" enctype="multipart/form-data">
         <?php foreach($kursi as $input){ ?>
           <input type="hidden" name="kursi[]" value="<?= $input ?>">
@@ -595,7 +713,7 @@ $i = 1;
               <div class="upload-hint">Format: JPG, PNG (Maks. 2MB)</div>
               <img id="proof-preview" src="#" alt="Preview Bukti Pembayaran">
             </div>
-            <input type="file" id="file-input" name="payment_proof" accept=".jpg,.jpeg,.png" onchange="previewImage(this)" required>
+            <input type="file" id="file-input" name="payment_proof" accept="image/*" onchange="previewImage(this)">
           </div>
         </div>
 
@@ -604,6 +722,18 @@ $i = 1;
       
     </div>
   </main>
+
+  <!-- Premium Popup -->
+  <div class="popup-overlay" id="verificationPopup">
+    <div class="popup-container">
+      <div class="popup-content">
+        <div class="popup-icon">⏳</div>
+        <h2 class="popup-title">Verifikasi Sedang Berlangsung</h2>
+        <p class="popup-message">Tunggu verifikasi admin untuk mendapatkan ticket Anda. Kami akan mengirimkan notifikasi begitu pembayaran Anda dikonfirmasi.</p>
+        <button class="popup-close" onclick="closePopup()">MENGERTI</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Fungsi untuk menampilkan section upload setelah memilih metode pembayaran
@@ -629,6 +759,26 @@ $i = 1;
         reader.readAsDataURL(file);
       }
     }
+
+    // Fungsi untuk menampilkan popup verifikasi
+    function showVerificationPopup() {
+      document.getElementById('verificationPopup').classList.add('active');
+      return false;
+    }
+
+    // Fungsi untuk menutup popup
+    function closePopup() {
+      document.getElementById('verificationPopup').classList.remove('active');
+    }
+
+    // Mengubah form submission untuk menampilkan popup
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      showVerificationPopup();
+      
+      // Di aplikasi nyata, Anda akan submit form setelah menampilkan popup
+      // setTimeout(() => { this.submit(); }, 2000);
+    });
   </script>
   
 </body>

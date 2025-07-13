@@ -1,158 +1,62 @@
-<header>
-        <div class="logo">
-            <img src="logo_web.png" alt="AZFATICKET Logo">
-            AZFATICKET.XXI
-        </div>
-        <nav>
-            <a href="home.php">MOVIE</a>
-            <a href="cinema.php">CINEMA</a>
-            <a href="contact_azfa.php">CONTACT</a>
-        </nav>
-        <div class="profile" onclick="toggleDropdown()">
-        <img src="userputih.jpg" alt="">
-        <div class="dropdown" id="dropdownMenu">
-            <?php if(isset($_SESSION['username'])){ ?>
-                <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
-                <a href="logout.php"><button>Logout</button></a>
-            <?php }else{ ?>
-                <a href="login.php"><button>Sign In</button></a>
-                <a href="register.php"><button>Sign Up</button></a> 
-            <?php } ?>
-        </div>
-        
-    </header>
-    <script>
-    function toggleDropdown() {
-      document.getElementById("dropdownMenu").classList.toggle("active");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Popup Gambar</title>
+  <style>
+    .popup {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.7);
     }
-
-    window.onclick = function(e) {
-      if (!e.target.closest('.profile')) {
-        document.getElementById("dropdownMenu").classList.remove("active");
-      }
-    }
-  </script>
-
-
-header {
-      background-color: #c62828;
-      color: white;
-      padding: 25px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-radius: 0 0 50px 50px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-      animation: navFadeIn 1s ease-in-out;
-    }
-
-    @keyframes navFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      font-weight: bold;
-      font-size: 28px;
-    }
-
-    .logo img {
-      margin-right: 10px;
-      height: 50px;
-      width: auto;
-    }
-
-    nav a {
-      margin: 0 18px;
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-      font-size: 18px;
+    .popup-content {
       position: relative;
-      transition: all 0.4s ease;
-    }
-
-    nav a::after {
-      content: '';
-      display: block;
-      width: 0;
-      height: 2px;
+      margin: 10% auto;
+      padding: 20px;
+      width: 60%;
       background: white;
-      transition: width 0.3s;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .popup-content img {
+      max-width: 100%;
+      height: auto;
+    }
+    .close {
       position: absolute;
-      bottom: -5px;
-      left: 0;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    nav a:hover {
-      transform: scale(1.1);
-    }
-
-    .profile img {
-      width: 50px;
-      height: 50px;
-      background-size: contain;
-      border-radius: 50%;
+      top: 10px; right: 20px;
+      font-size: 20px;
       cursor: pointer;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
 
-    }
-    .profile a{
-      text-decoration: none;
-    }
+<!-- Link untuk melihat gambar -->
+<a href="#" onclick="showPopup('bukti_pembayaran/<?= $payments['mtd_image'] ?>')">View</a>
 
-    .dropdown {
-      position: absolute;
-      top: 65px;
-      right: 0;
-      background: rgba(255,255,255,0.9);
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      backdrop-filter: blur(8px);
-      padding: 10px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: 0.3s ease;
-      z-index: 100;
-    }
+<!-- Popup -->
+<div id="imagePopup" class="popup" onclick="hidePopup()">
+  <div class="popup-content" onclick="event.stopPropagation()">
+    <span class="close" onclick="hidePopup()">&times;</span>
+    <img id="popupImg" src="" alt="Gambar">
+  </div>
+</div>
 
-    .dropdown.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
+<script>
+  function showPopup(src) {
+    document.getElementById('popupImg').src = src;
+    document.getElementById('imagePopup').style.display = 'block';
+  }
 
-    .dropdown button {
-      display: block;
-      background: linear-gradient(to right, #ff8a80, #ff5252);
-      color: white;
-      font-size: 18px;
-      font-weight: 500;
-      padding: 12px 20px;
-      margin: 10px 0;
-      width: 200px;
-      border: none;
-      border-radius: 12px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
+  function hidePopup() {
+    document.getElementById('imagePopup').style.display = 'none';
+  }
+</script>
 
-    .dropdown button:hover {
-      background: linear-gradient(to right, #ff1744, #e53935);
-      transform: scale(1.05);
-    }
+</body>
+</html>
