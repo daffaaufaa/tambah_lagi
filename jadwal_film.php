@@ -202,7 +202,7 @@ $id = 1;
       margin: 30px auto;
       padding: 25px;
       width: 95%;
-      max-width: 1000px;
+      max-width: 780px;
       border-radius: 15px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       animation: fadeInUp 0.8s ease-in-out;
@@ -213,12 +213,15 @@ $id = 1;
       gap: 30px;
       justify-content: center;
       flex-wrap: wrap;
+      margin-left: 50px;
+      
     }
 
     .poster {
-      width: 200px;
+      width: 210px;
       height: auto;
       border-radius: 10px;
+     
       box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
 
@@ -226,6 +229,8 @@ $id = 1;
       text-align: left;
       flex-grow: 1;
       max-width: 500px;
+      margin-left: 20px;
+      margin-top: 12px;
     }
 
     .info h3 {
@@ -242,9 +247,10 @@ $id = 1;
     /* ===== TABS ===== */
     .tabs {
       display: flex;
-      gap: 30px;
+      gap: 157px;
       margin-top: 30px;
       font-size: 1.2rem;
+      margin-left: 150px ;
     }
 
     #jadwal label, #sinopsi label {
@@ -267,7 +273,7 @@ $id = 1;
     }
 
     .jarak {
-      margin-top: 30px;
+      margin-top: 50px;
       text-align: left;
       padding: 20px;
       background-color: #ffffff;
@@ -366,6 +372,7 @@ $id = 1;
         <div class="dropdown" id="dropdownMenu">
             <?php if(isset($_SESSION['username'])){ ?>
                 <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
+                <a href="keranjang.php"><button>keranjang</button></a>
                 <a href="logout.php"><button>Logout</button></a>
             <?php }else{ ?>
                 <a href="login.php"><button>Sign In</button></a>
@@ -395,9 +402,12 @@ $id = 1;
         <img class="poster" src="movie/<?= $movies['poster_image'] ?>" alt="">
         <div class="info">
           <h3><?= strtoupper($movies['title']) ?></h3>
-          <p><strong><?= ucfirst($movies['genre']) ?></strong><br><?= $totalMenit ?> minutes</p>
+          <p><strong><?= ucfirst($movies['genre']) ?></strong></p><p><?= $totalMenit ?> minutes</p>
 
-          <div class="tabs">
+          
+        </div>
+      </div>
+      <div class="tabs">
             <div id="jadwal" onclick="style_deskripsi()">
               <input type="radio" id="ja_dwal" name="sinopsi" value="jadwal">
               <label for="ja_dwal">JADWAL</label>
@@ -407,8 +417,6 @@ $id = 1;
               <label for="si_nopsi">SINOPSI</label>
             </div>
           </div>
-        </div>
-      </div>
 
       <div id="isi_jadwal">
         <form action="kursi.php" method="post">

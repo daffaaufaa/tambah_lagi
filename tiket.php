@@ -7,21 +7,32 @@ $sql = "SELECT * FROM movies WHERE id_movies = '$id_movies'";
 $query = mysqli_query($koneksi, $sql);
 $movies = mysqli_fetch_array($query);
 
-$waktu= $_POST['waktu'];
+$id_bookings = $_POST['id_bookings'];
+$sql4 = "SELECT * FROM bookings WHERE id_bookings = '$id_bookings'";
+$query4 = mysqli_query($koneksi,$sql4);
+$bookings = mysqli_fetch_assoc($query4);
+
+
+
+$mtd_payments = $_POST['mtd_payments'];
+
+
+
+$waktu= $bookings['booking_time'];
 $time = new DateTime($waktu);
 $jam = $time->format('H');
 $menit = $time->format('i');
 
-$tanggal = $_POST['tanggal'];
+$tanggal = $bookings['booking_date'];
 $date = new DateTime($tanggal);
 
 $tanggal_hari = $date->format('d');
 $bulan = $date->format('M');
 $tahun = $date->format('Y');
 
-$total = $_POST['total'];
+$total = $bookings['total_price'];
 
-$kursi = $_POST['kursi'];
+$kursi = $bookings['seats_booked'];
 $nm_kursi = [
     '1' => 'A1', '2' => 'A2', '3' => 'A3', '4' => 'A4', '5' => 'A5', '6' => 'A6', '7' => 'A7', '8' => 'A8', '9' => 'A9', '10' => 'A10',
      '11' => 'A11', '12' => 'A12', '13' => 'B1', '14' => 'B2', '15' => 'B3', '16' => 'B4', '17' => 'B5', '18' => 'B6', '19' => 'B7', '20' => 'B8', 
@@ -42,47 +53,17 @@ if($movies['genre']=='horor'){
   $g = 3;
 }
 
-$username = $_SESSION['username'];
-$sql2 = "SELECT * FROM users WHERE username='$username'";
-$query2 = mysqli_query($koneksi,$sql2);
-$users = mysqli_fetch_assoc($query2);
 
-$id_bookings = $_POST['id_bookings'];
-$stat = true;
-foreach ($id_bookings as $booking){
-  $sql3 = "SELECT status FROM bookings WHERE id_bookings = '$booking'";
-  $query3 = mysqli_query($koneksi, $sql3); 
-  $status = mysqli_fetch_assoc($query3);
-
-  if($status['status'] == "terverifikasi"){
-    $stat = false;
-  }
-
-}
-$method_payments = $_POST['method_payments'];
 $f = 1;
 ?>
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cetak Tiket - AZFATiCKET.XXI</title>
-  <style>
-    /* === BASE STYLES === */
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #f9f3f3; /* Lighter red tint background */
-      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-     
-    }
-    
-    
-        /* === NAVBAR === */
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+           /* === NAVBAR === */
     header {
       background-color: #c62828;
       color: white;
@@ -205,7 +186,6 @@ $f = 1;
       background: linear-gradient(to right, #ff1744, #e53935);
       transform: scale(1.05);
     }
-    
     /* === NAVIGATION LINK STYLES === */
     a {
       margin: 30px 18px 0;
@@ -568,77 +548,15 @@ $f = 1;
         height: 200px;
       }
     }
-    /* === PREMIUM POPUP STYLES === */
-
-    .popup-container {
-      background: linear-gradient(135deg, #ff4d4d, #c62828);
-      color: white;
-      padding: 40px;
-      border-radius: 20px;
-      max-width: 500px;
-      text-align: center;
-      margin-left: 500px;
-      position: relative;
-      transform: scale(0.8);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 20px 50px rgba(198, 40, 40, 0.5);
-    }
-
-
-    .popup-container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-      animation: rotate 15s linear infinite;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .popup-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .popup-icon {
-      font-size: 60px;
-      margin-bottom: 20px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-
-    .popup-title {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .popup-message {
-      font-size: 18px;
-      line-height: 1.6;
-      margin-bottom: 25px;
-    }
-
-
+    
 
     
-  </style>
+
+
+    </style>
 </head>
 <body>
-  <header>
+    <header>
         <div class="logo">
             <img src="logo_web.png" alt="AZFATICKET Logo">
             AZFATICKET.XXI
@@ -652,13 +570,15 @@ $f = 1;
         <img src="userputih.jpg" alt="">
         <div class="dropdown" id="dropdownMenu">
             <?php if(isset($_SESSION['username'])){ ?>
-                <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
-                <a href="keranjang.php"><button>keranjang</button></a>
-                <a href="logout.php"><button>Logout</button></a>
+              <a href="keranjang.php"><button>keranjang</button></a>
+              <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
+              <a href="logout.php"><button>Logout</button></a>
+                
             <?php }else{ ?>
                 <a href="login.php"><button>Sign In</button></a>
                 <a href="register.php"><button>Sign Up</button></a> 
             <?php } ?>
+        </div>
         </div>
         
     </header>
@@ -673,29 +593,6 @@ $f = 1;
       }
     }
   </script>
-
-  <?php if ($stat == true): ?>
-    <!-- INI BAGIAN LOADING -->
-  
-    <div class="popup-container">
-      <div class="popup-content">
-        <div class="popup-icon">⏳</div>
-        <h2 class="popup-title">Verifikasi Sedang Berlangsung</h2>
-        <p class="popup-message">Tunggu verifikasi admin untuk mendapatkan ticket Anda. Kami akan mengirimkan notifikasi begitu pembayaran Anda dikonfirmasi.</p>
-        
-      </div>
-    </div>
-
-  <script>
-    // Reload halaman setiap 5 detik untuk cek status lagi
-    setTimeout(function() {
-      location.reload();
-    }, 10000);
-  </script>
-
-<?php else: ?>
-  <!-- BAGIAN PRINT TIKET -->
-  
 
   <main class="ticket-wrapper">
     <div class="ticket-card" id="ticket">
@@ -718,34 +615,18 @@ $f = 1;
           <strong>STUDIO</strong><br><?= $g ?>
         </div>
         <div>
-          <strong>SEAT</strong><br><?php foreach ($kursi as $nomor) {
-            $array_kursi = "{$nm_kursi[$nomor]}";
-            if($i !== 1){
-                echo ", ";
-            }
-            $i += 1;
-
-            echo htmlspecialchars($array_kursi);
-        } ?>
+          <strong>SEAT</strong><br><?= $nm_kursi[$kursi] ?>
         </div>
         <div>
           <strong>COST</strong><br>Rp. <?= $total ?>
         </div>
         <div>
-          <strong>ID ORDER</strong><br><?php foreach ($id_bookings as $id) {
-          
-            if($j !== 1){
-                echo ", ";
-            }
-            $j += 1;
-
-            echo htmlspecialchars($id);
-        }?>
+          <strong>ID ORDER</strong><br><?= $id_bookings?>
         </div>
         <div>
           <strong>PAYMENTS</strong>
           <br>
-          <?= strtoupper($method_payments) ?>
+          <?= strtoupper($mtd_payments) ?>
           
         </div>
       </div>
@@ -757,8 +638,7 @@ $f = 1;
     <button onclick="window.print()">PRINT</button>
   </main>
 
-<?php endif; ?>
 
-  
+
 </body>
 </html>

@@ -14,9 +14,7 @@ if(isset($_SESSION['id_movies']) || isset($_SESSION['tanggal']) || isset($_SESSI
     $waktu = $_SESSION['waktu'];
     $tanggal = $_SESSION['tanggal'];
     $id_movies = $_SESSION['id_movies'];
-    unset($_SESSION['waktu']);
-    unset($_SESSION['tanggal']);
-    unset($_SESSION['id_movies']);
+    
 }else{
     $waktu = $_POST['waktu'];
     $tanggal = $_POST['tanggal'];
@@ -589,6 +587,7 @@ while($row = mysqli_fetch_array($query2)){
         <div class="dropdown" id="dropdownMenu">
             <?php if(isset($_SESSION['username'])){ ?>
                 <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
+                <a href="keranjang.php"><button>keranjang</button></a>
                 <a href="logout.php"><button>Logout</button></a>
             <?php }else{ ?>
                 <a href="login.php"><button>Sign In</button></a>

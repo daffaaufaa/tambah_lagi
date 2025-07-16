@@ -8,8 +8,6 @@ $id_movies = $_POST['id_movies'];
 for ($i = 0; $i < count($id_movies); $i++) {
     $sql = "INSERT INTO jadwal_waktu (tanggal,waktu,id_movies) VALUES ('$tanggal[$i]','$waktu[$i]','$id_movies[$i]')";
     $query = mysqli_query($koneksi,$sql);
-    
-    
 }
 
 

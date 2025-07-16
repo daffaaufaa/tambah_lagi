@@ -306,8 +306,9 @@ $query2 =  mysqli_query($koneksi,$sql2);
         <img src="userputih.jpg" alt="">
         <div class="dropdown" id="dropdownMenu">
             <?php if(isset($_SESSION['username'])){ ?>
+              <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
+              <a href="keranjang.php"><button>keranjang</button></a>
               <a href="logout.php"><button>Logout</button></a>
-                <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
                 
             <?php }else{ ?>
                 <a href="login.php"><button>Sign In</button></a>

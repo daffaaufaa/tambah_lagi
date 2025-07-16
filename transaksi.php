@@ -5,6 +5,9 @@ session_start();
 if(!isset($_POST['id_movies']) || !isset($_POST['tanggal']) || !isset($_POST['waktu']) || !isset($_POST['kursi'])){
   header("location:jadwal_film.php");
 }
+unset($_SESSION['waktu']);
+    unset($_SESSION['tanggal']);
+    unset($_SESSION['id_movies']);
 $id_movies = $_POST['id_movies'];
 $sql = "SELECT * FROM movies WHERE id_movies = '$id_movies'";
 $query = mysqli_query($koneksi, $sql);
@@ -510,6 +513,7 @@ $i = 1;
         <div class="dropdown" id="dropdownMenu">
             <?php if(isset($_SESSION['username'])){ ?>
                 <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
+                <a href="keranjang.php"><button>keranjang</button></a>
                 <a href="logout.php"><button>Logout</button></a>
             <?php }else{ ?>
                 <a href="login.php"><button>Sign In</button></a>
@@ -583,7 +587,7 @@ $i = 1;
           
           <div class="payment-option" onclick="selectPayment('dana')">
             <input type="radio" name="payment_method" value="dana" id="dana">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_DANA.svg/1200px-Logo_DANA.svg.png" alt="DANA">
+            <img src="https://enimekspres.disway.id/upload/482ef763296282fb93275e0fd7365a04.jpg" alt="DANA">
             <label for="dana">DANA</label>
           </div>
           

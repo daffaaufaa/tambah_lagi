@@ -38,14 +38,11 @@ if($syaratUPLD !== 0){
     $release_date = $_POST['release_date'];
 
     $duration = $_POST['duration'];
-    $pisah = explode(":", $duration);
-    $jam = explode("0",$pisah[0]);
-    $menit = explode("0",$pisah[1]);
-    $gabungan = $jam[0]."j ".$menit[0]."m";
+    
 
     $max_tayang = $_POST['max_tayang'];
 
-    $sql = "INSERT INTO movies (title,genre,description,release_date,duration,poster_image,max_tayang) VALUES ('$title','$genre','$description','$release_date','$gabungan','$nama_random','$max_tayang')";
+    $sql = "INSERT INTO movies (title,genre,description,release_date,duration,poster_image,max_tayang) VALUES ('$title','$genre','$description','$release_date','$duration','$nama_random','$max_tayang')";
     $query = mysqli_query($koneksi,$sql);
 
     if ($query){
