@@ -1,6 +1,22 @@
 <?php
 include "koneksi.php";
 
+if (isset($_POST['submit'])) {
+    $nm_random = uniqid().".mp4";
+    $tmp = $_FILES['video']['tmp_name'];
+
+    $folder = 'video/'; // folder penyimpanan
+    $path = $folder . $nm_random;
+
+    // Pindahkan file ke folder
+    if (move_uploaded_file($tmp, $path)) {
+
+        echo "Video berhasil diupload dan disimpan.";
+    } else {
+        echo "Gagal upload video.";
+    }
+}
+
 $tempat_gmbr = "movie/";
 $nama_random = uniqid().".jpg";
 $target_file = $tempat_gmbr . $nama_random;
@@ -42,10 +58,11 @@ if($syaratUPLD !== 0){
 
     $max_tayang = $_POST['max_tayang'];
 
-    $sql = "INSERT INTO movies (title,genre,description,release_date,duration,poster_image,max_tayang) VALUES ('$title','$genre','$description','$release_date','$duration','$nama_random','$max_tayang')";
+    $sql = "INSERT INTO movies (title,genre,description,release_date,duration,poster_image,max_tayang,video_path) VALUES ('$title','$genre','$description','$release_date','$duration','$nama_random','$max_tayang','$nm_random')";
     $query = mysqli_query($koneksi,$sql);
 
     if ($query){
+      
       header("location:admin_azfa.php?tambah_movies=sukses");
         
     }

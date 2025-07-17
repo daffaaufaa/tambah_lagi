@@ -1111,6 +1111,9 @@ button[type="submit"]:hover::after {
             
             <label for="">Max Tayang :</label>
             <input type="date" name="max_tayang" id="">
+
+            <label for="video">Pilih Video: </label>
+            <input type="file" name="video" accept=".mp4" required>
             
             <input type="submit" value="Tambah Film" name="submit">
         </form>
