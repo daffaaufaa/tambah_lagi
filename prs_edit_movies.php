@@ -1,6 +1,22 @@
 <?php
 include "koneksi.php";
 
+if (isset($_POST['submit'])) {
+    $nm_random = uniqid().".mp4";
+    $tmp = $_FILES['video']['tmp_name'];
+
+    $folder = 'video/'; // folder penyimpanan
+    $path = $folder . $nm_random;
+
+    // Pindahkan file ke folder
+    if (move_uploaded_file($tmp, $path)) {
+
+        echo "Video berhasil diupload dan disimpan.";
+    } else {
+        echo "Gagal upload video.";
+    }
+}
+
 $tempat_gmbr = "movie/";
 $syaratUPLD = 1;
 $nama_random = null;
@@ -32,7 +48,28 @@ if (isset($_POST["submit"])) {
         }
     }
 
-    if ($nama_random !== null) {
+    if ($_FILES['video']['name'] !== null && $_FILES['poster_image']['name'] == null ) {
+        $sql = "UPDATE movies SET 
+                    title='$title',
+                    genre='$genre',
+                    description='$description',
+                    release_date='$release_date',
+                    duration='$duration',
+                    max_tayang='$max_tayang',
+                    video_path = '$nm_random'
+                WHERE id_movies='$id'";
+    } elseif ($_FILES['poster_image']['name'] !== null && $_FILES['video']['name'] !== null) {
+        $sql = "UPDATE movies SET 
+                    title='$title',
+                    genre='$genre',
+                    description='$description',
+                    release_date='$release_date',
+                    duration='$duration',
+                    poster_image='$nama_random',
+                    max_tayang='$max_tayang',
+                    video_path = '$nm_random'
+                WHERE id_movies ='$id'";
+    }elseif ($_FILES['poster_image']['name'] !== null && $_FILES['video']['name'] == null) {
         $sql = "UPDATE movies SET 
                     title='$title',
                     genre='$genre',
@@ -42,7 +79,7 @@ if (isset($_POST["submit"])) {
                     poster_image='$nama_random',
                     max_tayang='$max_tayang'
                 WHERE id_movies='$id'";
-    } else {
+    }else{
         $sql = "UPDATE movies SET 
                     title='$title',
                     genre='$genre',
@@ -50,7 +87,8 @@ if (isset($_POST["submit"])) {
                     release_date='$release_date',
                     duration='$duration',
                     max_tayang='$max_tayang'
-                WHERE id_movies ='$id'";
+                WHERE id_movies='$id'";
+
     }
 
     $query = mysqli_query($koneksi, $sql);

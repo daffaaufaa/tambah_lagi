@@ -402,6 +402,19 @@ $data = mysqli_fetch_assoc($query);
                         <input type="date" name="max_tayang" id="max_tayang" value="<?= $data['max_tayang'] ?>" required>
                     </div>
 
+                    <div class="form-group">
+                        <label for="">Movie Trailer</label>
+                        <div class="file-input-wrapper">
+                            <div class="file-input-button">
+                               <i class="fas fa-cloud-upload-alt"></i>
+                               <span>Click to upload new video</span>
+                               <input type="file" name="video" accept=".mp4" required>
+                            </div>
+                        </div>
+                        <span class="current-image">Current: <?= htmlspecialchars($data['video_path']) ?></span>
+
+                    </div>
+
                     <button type="submit" name="submit" class="submit-btn">
                         <i class="fas fa-save"></i> Update Movie
                     </button>
