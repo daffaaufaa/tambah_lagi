@@ -70,21 +70,44 @@ $f = 1;
   <title>Cetak Tiket - AZFATiCKET.XXI</title>
   <style>
     /* === BASE STYLES === */
-    body {
+    @font-face {
+      src: url('font/BalsamiqSans.ttf') format('truetype');
+      font-family: 'BalsamiqSans';
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      background-color: #f9f3f3; /* Lighter red tint background */
-      font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-     
+      box-sizing: border-box;
     }
-    
-    
-        /* === NAVBAR === */
+
+    input[type="radio"] {
+      display: none;
+    }
+    body {
+      background: linear-gradient(135deg, #f9f9f9 0%, #fff5f5 100%);
+      font-family: 'BalsamiqSans', sans-serif;
+      animation: fadeIn 1s ease-in;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(255, 215, 215, 0.8) 0%, rgba(255, 255, 255, 0) 50%),
+                  radial-gradient(circle at 80% 70%, rgba(215, 215, 255, 0.6) 0%, rgba(255, 255, 255, 0) 50%);
+      z-index: -1;
+      opacity: 0.5;
+    }
+
+    /* ===== NAVBAR ===== */
     header {
-      background-color: #c62828;
+      background: linear-gradient(135deg, #c62828 0%, #8e0000 100%);
       color: white;
       padding: 25px 40px;
       display: flex;
@@ -93,20 +116,14 @@ $f = 1;
       position: sticky;
       top: 0;
       z-index: 1000;
-      border-radius: 0 0 50px 50px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 10px 30px rgba(198, 40, 40, 0.3);
       animation: navFadeIn 1s ease-in-out;
     }
 
     @keyframes navFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      0% { opacity: 0; transform: translateY(-50px) scale(0.9); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .logo {
@@ -114,12 +131,19 @@ $f = 1;
       align-items: center;
       font-weight: bold;
       font-size: 28px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.03);
     }
 
     .logo img {
       margin-right: 10px;
       height: 50px;
       width: auto;
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
     }
 
     nav a {
@@ -130,6 +154,8 @@ $f = 1;
       font-size: 18px;
       position: relative;
       transition: all 0.4s ease;
+      padding: 8px 12px;
+      border-radius: 8px;
     }
 
     nav a::after {
@@ -150,6 +176,7 @@ $f = 1;
 
     nav a:hover {
       transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .profile img {
@@ -158,9 +185,15 @@ $f = 1;
       background-size: contain;
       border-radius: 50%;
       cursor: pointer;
-
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
-    .profile a{
+
+    .profile:hover img {
+      transform: scale(1.1);
+    }
+
+    .profile a {
       text-decoration: none;
     }
 
@@ -168,16 +201,17 @@ $f = 1;
       position: absolute;
       top: 65px;
       right: 0;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(8px);
       padding: 10px;
       opacity: 0;
       visibility: hidden;
       transform: translateY(-10px);
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
       z-index: 100;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .dropdown.active {
@@ -199,11 +233,13 @@ $f = 1;
       border-radius: 12px;
       transition: all 0.3s ease;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .dropdown button:hover {
       background: linear-gradient(to right, #ff1744, #e53935);
       transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
     
     /* === NAVIGATION LINK STYLES === */

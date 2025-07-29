@@ -19,18 +19,99 @@ $query3 = mysqli_query($koneksi, $sql3);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AZFATICKET.XXI</title>
   <style>
-    /* === FONT CUSTOM === */
-    @font-face {
-      src: url('font/KeaniaOne.ttf') format('truetype');
-      font-family: 'KeaniaOne';
-    }
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    /* ===== FONT & BASE STYLES ===== */
+@font-face {
+  src: url('font/BalsamiqSans.ttf') format('truetype');
+  font-family: 'BalsamiqSans';
+}
 
-    /* === RESET CSS === */
-    
-    /* === NAVBAR === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f7f4f4ff;
+  font-family: 'BalsamiqSans', sans-serif;
+  color: white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ===== CINEMA SCREEN EFFECT ===== */
+.cinema-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, 
+              rgba(198,40,40,0.2) 0%, 
+              rgba(0,0,0,0.8) 70%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* ===== NAVBAR STYLES ===== */
+@font-face {
+  src: url('font/BalsamiqSans.ttf') format('truetype');
+  font-family: 'BalsamiqSans';
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #fcfafaff;
+  font-family: 'BalsamiqSans', sans-serif;
+  color: white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ===== HEADER STYLES ===== */
+     @font-face {
+      src: url('font/BalsamiqSans.ttf') format('truetype');
+      font-family: 'BalsamiqSans';
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+    body {
+      background: linear-gradient(135deg, #f9f9f9 0%, #fff5f5 100%);
+      font-family: 'BalsamiqSans', sans-serif;
+      animation: fadeIn 1s ease-in;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(255, 215, 215, 0.8) 0%, rgba(255, 255, 255, 0) 50%),
+                  radial-gradient(circle at 80% 70%, rgba(215, 215, 255, 0.6) 0%, rgba(255, 255, 255, 0) 50%);
+      z-index: -1;
+      opacity: 0.5;
+    }
+
+    /* ===== NAVBAR ===== */
     header {
-      background-color: #c62828;
+      background: linear-gradient(135deg, #c62828 0%, #8e0000 100%);
       color: white;
       padding: 25px 40px;
       display: flex;
@@ -39,20 +120,14 @@ $query3 = mysqli_query($koneksi, $sql3);
       position: sticky;
       top: 0;
       z-index: 1000;
-      border-radius: 0 0 50px 50px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 10px 30px rgba(198, 40, 40, 0.3);
       animation: navFadeIn 1s ease-in-out;
     }
 
     @keyframes navFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      0% { opacity: 0; transform: translateY(-50px) scale(0.9); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .logo {
@@ -60,12 +135,19 @@ $query3 = mysqli_query($koneksi, $sql3);
       align-items: center;
       font-weight: bold;
       font-size: 28px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.03);
     }
 
     .logo img {
       margin-right: 10px;
       height: 50px;
       width: auto;
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
     }
 
     nav a {
@@ -76,6 +158,8 @@ $query3 = mysqli_query($koneksi, $sql3);
       font-size: 18px;
       position: relative;
       transition: all 0.4s ease;
+      padding: 8px 12px;
+      border-radius: 8px;
     }
 
     nav a::after {
@@ -96,17 +180,24 @@ $query3 = mysqli_query($koneksi, $sql3);
 
     nav a:hover {
       transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .profile img {
       width: 50px;
       height: 50px;
-      background-size: cover;
+      background-size: contain;
       border-radius: 50%;
       cursor: pointer;
-
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
-    .profile a{
+
+    .profile:hover img {
+      transform: scale(1.1);
+    }
+
+    .profile a {
       text-decoration: none;
     }
 
@@ -114,16 +205,17 @@ $query3 = mysqli_query($koneksi, $sql3);
       position: absolute;
       top: 65px;
       right: 0;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(8px);
       padding: 10px;
       opacity: 0;
       visibility: hidden;
       transform: translateY(-10px);
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
       z-index: 100;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .dropdown.active {
@@ -145,159 +237,245 @@ $query3 = mysqli_query($koneksi, $sql3);
       border-radius: 12px;
       transition: all 0.3s ease;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .dropdown button:hover {
       background: linear-gradient(to right, #ff1744, #e53935);
       transform: scale(1.05);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
 
+/* ===== MAIN CONTENT STYLES ===== */
+h1 {
+  text-align: center;
+  margin: 50px 0 30px;
+  font-size: 3.5rem;
+  background: linear-gradient(to right, #fff, #ff8a80);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 10px rgba(198,40,40,0.3);
+  position: relative;
+  animation: textGlow 2s infinite alternate;
+}
 
-    @keyframes logoPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
+@keyframes textGlow {
+  from { text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+  to { text-shadow: 0 0 20px rgba(255,138,128,0.8); }
+}
 
+hr {
+  width: 300px;
+  margin: 0 auto 50px;
+  border: none;
+  height: 3px;
+  background: linear-gradient(to right, transparent, #c62828, transparent);
+  animation: hrExpand 1.5s ease-out;
+}
 
-    @keyframes spinIn {
-      from { transform: rotate(0deg) scale(0); opacity: 0; }
-      to { transform: rotate(360deg) scale(1); opacity: 1; }
-    }
+@keyframes hrExpand {
+  from { width: 0; opacity: 0; }
+  to { width: 300px; opacity: 1; }
+}
 
+/* ===== STUDIO SECTIONS ===== */
+.studio {
+  margin: 80px auto;
+  max-width: 1200px;
+  padding: 0 5%;
+  animation: fadeInUp 1s ease both;
+}
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    h1 {
-      text-align: center;
-      margin: 29px 0 10px;
-      font-size: 33px;
-      animation: textGlow 2s ease-in-out infinite alternate;
-    }
+.studio h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  position: relative;
+  display: inline-block;
+  color: white;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
 
-    @keyframes textGlow {
-      from { text-shadow: 0 0 5px rgba(198, 40, 40, 0.5); }
-      to { text-shadow: 0 0 15px rgba(198, 40, 40, 0.8); }
-    }
+.studio h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, #c62828, transparent);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
+}
 
-    hr {
-      width: 550px;
-      margin: 20px auto 30px;
-      border-top: 2px solid #000;
-      animation: hrExpand 1.5s ease-out;
-    }
+.studio:hover h2::after {
+  transform: scaleX(1);
+}
 
-    @keyframes hrExpand {
-      from { width: 0; opacity: 0; }
-      to { width: 550px; opacity: 1; }
-    }
+.movie-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
 
-    .studio {
-      margin-top: 64px;
-      margin-left: 80px;
-      animation: fadeInUp 1s ease both;
-    }
+.movie-list a {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  height: 350px;
+}
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+.movie-list img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s, filter 0.5s;
+}
 
-    .studio:nth-child(1) { animation-delay: 0.3s; }
-    .studio:nth-child(2) { animation-delay: 0.6s; }
-    .studio:nth-child(3) { animation-delay: 0.9s; }
+.movie-list a:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 15px 40px rgba(198, 40, 40, 0.4);
+}
 
-    .studio h2 {
-      font-size: 21px;
-      margin-bottom: 10px;
-      position: relative;
-      display: inline-block;
-    }
+.movie-list a:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
 
-    .studio h2::after {
-      content: '';
-      position: absolute;
-      width: 100%;
-      height: 3px;
-      bottom: -5px;
-      left: 0;
-      background-color: #c62828;
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.5s ease;
-    }
+.movie-list a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-    .studio:hover h2::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
+.movie-list a:hover::before {
+  opacity: 1;
+}
 
-    .movie-list {
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
+.movie-list a::after {
+  content: 'VIEW NOW';
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #c62828;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  z-index: 2;
+  opacity: 0;
+  transition: all 0.3s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
 
-    .movie-list img {
-      width: 130px;
-      height: 190px;
-      object-fit: cover;
-      border-radius: 10px;
-      transition: all 0.4s ease;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      animation: cardPopIn 0.6s ease both;
-    }
+.movie-list a:hover::after {
+  opacity: 1;
+  bottom: 30px;
+}
 
-    @keyframes cardPopIn {
-      from {
-        opacity: 0;
-        transform: scale(0.8) rotate(-5deg);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) rotate(0);
-      }
-    }
+/* ===== ANIMATION DELAYS ===== */
+.studio:nth-child(1) { animation-delay: 0.3s; }
+.studio:nth-child(2) { animation-delay: 0.6s; }
+.studio:nth-child(3) { animation-delay: 0.9s; }
 
-    .movie-list a:nth-child(1) img { animation-delay: 0.1s; }
-    .movie-list a:nth-child(2) img { animation-delay: 0.2s; }
-    .movie-list a:nth-child(3) img { animation-delay: 0.3s; }
-    .movie-list a:nth-child(4) img { animation-delay: 0.4s; }
-    .movie-list a:nth-child(5) img { animation-delay: 0.5s; }
+.movie-list a:nth-child(1) { animation-delay: 0.1s; }
+.movie-list a:nth-child(2) { animation-delay: 0.2s; }
+.movie-list a:nth-child(3) { animation-delay: 0.3s; }
+.movie-list a:nth-child(4) { animation-delay: 0.4s; }
+.movie-list a:nth-child(5) { animation-delay: 0.5s; }
 
-    .movie-list img:hover {
-      transform: translateY(-10px) scale(1.05);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-      z-index: 10;
-    }
+/* ===== SCROLLBAR STYLES ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-    /* Background animation */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 20% 30%, rgba(198, 40, 40, 0.1) 0%, transparent 30%),
-                  radial-gradient(circle at 80% 70%, rgba(198, 40, 40, 0.1) 0%, transparent 30%);
-      z-index: -1;
-      animation: bgPulse 15s infinite alternate;
-    }
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
 
-    @keyframes bgPulse {
-      0% { opacity: 0.3; }
-      100% { opacity: 0.7; }
-    }
+::-webkit-scrollbar-thumb {
+  background: #c62828;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b71c1c;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+  .movie-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  
+  h1 {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  nav {
+    margin: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .movie-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .studio h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  nav a {
+    margin: 5px;
+    font-size: 1rem;
+    padding: 8px 12px;
+  }
+  
+  .movie-list {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .studio h2 {
+    font-size: 1.5rem;
+  }
+}
   </style>
 </head>
 <body>

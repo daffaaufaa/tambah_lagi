@@ -23,9 +23,30 @@ $query2 =  mysqli_query($koneksi,$sql2);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AZFATICKET.XXI</title>
   <style>
-    @font-face {
-      src: url('font/KeaniaOne.ttf') format('truetype');
-      font-family: 'KeaniaOne';
+   /* ===== FONT & BASE STYLES ===== */
+@font-face {
+  src: url('font/BalsamiqSans.ttf') format('truetype');
+  font-family: 'BalsamiqSans';
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #fcfafaff;
+  font-family: 'BalsamiqSans', sans-serif;
+  color: white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ===== HEADER STYLES ===== */
+     @font-face {
+      src: url('font/BalsamiqSans.ttf') format('truetype');
+      font-family: 'BalsamiqSans';
     }
 
     * {
@@ -34,15 +55,33 @@ $query2 =  mysqli_query($koneksi,$sql2);
       box-sizing: border-box;
     }
 
+    input[type="radio"] {
+      display: none;
+    }
     body {
-      background-color: #fff;
-      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f9f9f9 0%, #fff5f5 100%);
+      font-family: 'BalsamiqSans', sans-serif;
+      animation: fadeIn 1s ease-in;
+      position: relative;
       overflow-x: hidden;
-      animation: fadeInBody 1s ease-in;
     }
 
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(255, 215, 215, 0.8) 0%, rgba(255, 255, 255, 0) 50%),
+                  radial-gradient(circle at 80% 70%, rgba(215, 215, 255, 0.6) 0%, rgba(255, 255, 255, 0) 50%);
+      z-index: -1;
+      opacity: 0.5;
+    }
+
+    /* ===== NAVBAR ===== */
     header {
-      background-color: #c62828;
+      background: linear-gradient(135deg, #c62828 0%, #8e0000 100%);
       color: white;
       padding: 25px 40px;
       display: flex;
@@ -51,20 +90,14 @@ $query2 =  mysqli_query($koneksi,$sql2);
       position: sticky;
       top: 0;
       z-index: 1000;
-      border-radius: 0 0 50px 50px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 10px 30px rgba(198, 40, 40, 0.3);
       animation: navFadeIn 1s ease-in-out;
     }
 
     @keyframes navFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      0% { opacity: 0; transform: translateY(-50px) scale(0.9); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .logo {
@@ -72,12 +105,19 @@ $query2 =  mysqli_query($koneksi,$sql2);
       align-items: center;
       font-weight: bold;
       font-size: 28px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.03);
     }
 
     .logo img {
       margin-right: 10px;
       height: 50px;
       width: auto;
+      filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
     }
 
     nav a {
@@ -88,6 +128,8 @@ $query2 =  mysqli_query($koneksi,$sql2);
       font-size: 18px;
       position: relative;
       transition: all 0.4s ease;
+      padding: 8px 12px;
+      border-radius: 8px;
     }
 
     nav a::after {
@@ -108,6 +150,7 @@ $query2 =  mysqli_query($koneksi,$sql2);
 
     nav a:hover {
       transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.1);
     }
 
     .profile img {
@@ -116,9 +159,15 @@ $query2 =  mysqli_query($koneksi,$sql2);
       background-size: contain;
       border-radius: 50%;
       cursor: pointer;
-
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
-    .profile a{
+
+    .profile:hover img {
+      transform: scale(1.1);
+    }
+
+    .profile a {
       text-decoration: none;
     }
 
@@ -126,16 +175,17 @@ $query2 =  mysqli_query($koneksi,$sql2);
       position: absolute;
       top: 65px;
       right: 0;
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(8px);
       padding: 10px;
       opacity: 0;
       visibility: hidden;
       transform: translateY(-10px);
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
       z-index: 100;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .dropdown.active {
@@ -157,138 +207,338 @@ $query2 =  mysqli_query($koneksi,$sql2);
       border-radius: 12px;
       transition: all 0.3s ease;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .dropdown button:hover {
       background: linear-gradient(to right, #ff1744, #e53935);
       transform: scale(1.05);
-    }
-    
-    @keyframes fadeInBody {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     }
 
-    
+/* ===== MAIN CONTENT STYLES ===== */
+.welcome {
+  text-align: center;
+  font-size: 3rem;
+  margin: 50px 0 30px;
+  color: #fff;
+  text-shadow: 0 0 10px #c62828, 0 0 20px #c62828;
+  animation: neonGlow 2s infinite alternate;
+}
 
-    @keyframes slideDown {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(0); }
-    }
+@keyframes neonGlow {
+  from {
+    text-shadow: 0 0 10px #c62828, 0 0 20px #c62828;
+  transform: scale(1);
+  opacity: 1;
+  letter-spacing: 0;
+  filter: brightness(1);
+  }
+  to {
+    text-shadow: 0 0 20px #c62828, 0 0 30px #c62828, 0 0 40px #c62828;
+    transform: scale(1.02);
+    opacity: 0.9;
+    letter-spacing: 1px;
+    filter: brightness(1.1);
+  }
+}
 
-    
+/* Remove voucher container */
+.voucher-container {
+  display: none;
+}
 
-    .welcome {
-      font-family: "KeaniaOne";
-      text-align: center;
-      font-size: 34px;
-      margin: 30px 0;
-      color: #c62828;
-      animation: fadeInText 1.5s ease-in-out;
-    }
+/* ===== MOVIE SECTION STYLES ===== */
+.movie-section {
+  text-align: center;
+  margin: 60px auto;
+  max-width: 1400px;
+  padding: 0 20px;
+}
 
-    @keyframes fadeInText {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
+.movie-section h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 40px;
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 1);
+}
 
-    .voucher-container, .movie-list {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 40px;
-      animation: fadeInCards 1.2s ease-in-out;
-    }
+.movie-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(to right, transparent, #c62828, transparent);
+}
 
-    .voucher-container img, .movie-list img {
-      width: 200px;
-      height: 120px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
-    }
+.movie-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
 
-    .movie-list img {
-      height: 250px;
-      width: 200px;
-    }
+.movie-list a {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  height: 400px;
+  perspective: 1000px;
+}
 
-    .movie-list img:hover {
-      transform: scale(1.05);
-    }
+.movie-list img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s, filter 0.5s;
+}
 
-    @keyframes fadeInCards {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+.movie-list a:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 15px 40px rgba(198, 40, 40, 0.4);
+}
 
-    .movie-section, .update-section {
-      text-align: center;
-      margin-bottom: 40px;
-    }
+.movie-list a:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
 
-    .movie-section h2, .update-section h2 {
-      font-size: 28px;
-      font-weight: bold;
-      color: #b71c1c;
-      margin-bottom: 20px;
-    }
+.movie-list a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(253, 250, 250, 1) 0%, transparent 50%);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
 
-    .update-section h3 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      color: #c62828;
-    }
+.movie-list a:hover::before {
+  opacity: 1;
+}
 
-    .about-us {
-      width: 60%;
-      margin: 0 auto;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #333;
-    }
+.movie-list a::after {
+  content: 'BOOK NOW';
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #c62828;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: bold;
+  z-index: 2;
+  opacity: 0;
+  transition: all 0.3s;
+}
 
-    footer {
-      background-color: #c62828;
-      color: white;
-      padding: 30px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      animation: fadeInFooter 1.2s ease-in;
-    }
+.movie-list a:hover::after {
+  opacity: 1;
+  bottom: 30px;
+}
 
-    @keyframes fadeInFooter {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+/* ===== UPDATE SECTION STYLES ===== */
+.update-section {
+  text-align: center;
+  margin: 80px auto;
+  max-width: 1000px;
+  padding: 0 20px;
+  position: relative;
+}
 
-    .social-media, .download, .contact {
-      width: 30%;
-    }
+.update-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+  opacity: 0.1;
+  z-index: -1;
+  border-radius: 20px;
+}
 
-    .social-media h4, .download h4, .contact h4 {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
+.update-section h2 {
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
 
-    .social-media p, .contact p {
-      margin-bottom: 5px;
-      font-size: 14px;
-    }
+.update-section h3 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #c62828;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
 
-    .download img {
-      width: 120px;
-      margin-right: 10px;
-    }
+.about-us {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #ddd;
+  background: rgba(255, 252, 252, 1);
+  padding: 30px;
+  border-radius: 20px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 10px 30px rgba(250, 247, 247, 1);
+}
 
-    .copyright {
-      width: 100%;
-      text-align: center;
-      font-size: 12px;
-      margin-top: 20px;
-    }
+/* ===== FOOTER STYLES ===== */
+footer {
+  background: linear-gradient(to top, #000000, #c62828);
+  color: white;
+  padding: 50px 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+.social-media, .download, .contact {
+  width: 30%;
+  position: relative;
+  z-index: 1;
+}
+
+.social-media h4, .download h4, .contact h4 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+.social-media p, .contact p {
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.download img {
+  width: 150px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  transition: transform 0.3s;
+  border-radius: 10px;
+}
+
+.download img:hover {
+  transform: scale(1.05);
+}
+
+.copyright {
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 40px;
+  color: #aaa;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== SCROLLBAR STYLES ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c62828;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b71c1c;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+  .movie-list {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+  
+  .social-media, .download, .contact {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  nav {
+    margin: 20px 0;
+  }
+  
+  .movie-list {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+  
+  .welcome, .movie-section h2, .update-section h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  nav a {
+    margin: 0 10px;
+    font-size: 16px;
+  }
+  
+  .movie-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .about-us {
+    padding: 20px;
+  }
+}
   </style>
 </head>
 <body>
