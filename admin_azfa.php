@@ -814,12 +814,11 @@ button[type="submit"]:hover::after {
       <button onclick="showSection('dashboard movie')"><i class="fas fa-tachometer-alt"></i> DATA MOVIE</button>
       <button onclick="showSection('transaksi')"><i class="fas fa-receipt"></i> DATA TRANSAKSI</button>      
       <button onclick="showSection('dashboard bookings')"><i class="fas fa-calendar-check"></i> DATA BOOKINGS</button>
-      <button onclick="showSection('dashboard iklan')"><i class="fas fa-ad"></i> DATA IKLAN</button>
       <button onclick="showSection('daftar verifikasi')"><i class="fas fa-solid fa-user-check"></i> Daftar Verifikasi</button>
       <button onclick="showSection('management artis')" ><i class="fas fa-solid fa-circle-user"></i>Management Artis</button>
       <button onclick="showSection('movie')"><i class="fas fa-film"></i> Management Movie</button>
       <button onclick="showSection('jadwal')"><i class="fas fa-clock"></i> Management Jadwal</button>
-      <button onclick="showSection('iklan')"><i class="fas fa-images"></i> Management Iklan</button>
+      
       
     </div>
 
@@ -972,28 +971,7 @@ button[type="submit"]:hover::after {
         </table>
       </div>
       
-      <div id="dashboard iklan" class="section">
-        <h1><i class="fas fa-ad"></i> DATA IKLAN</h1>
-        <table>
-          
-            <tr>
-                <th>id iklan</th>
-                <th>nama gambar</th>
-                <th>gambar</th>
-                <th>aksi</th>
-            </tr>
-            <?php while($iklan = mysqli_fetch_assoc($query)){?>
-            <tr>
-                <td><?= $iklan['id_iklan'] ?? ''; ?></td>
-                <td><?= $iklan['gambar']; ?></td>
-                <td><div class="iklan"><img src="iklan/<?= $iklan['gambar'] ?>" ></div></td>
-                <td>
-                    <a href="hapus_gambar.php?id=<?= $movies['id_iklan']; ?>" style="background: linear-gradient(135deg, #f44336, #c62828); color: white;"><i class="fas fa-trash"></i> Hapus</a>
-                </td>
-            </tr>
-            <?php }?>
-        </table>
-      </div>
+      
       <div id="dashboard bookings" class ="section">
         <h1><i class="fas fa-calendar-check"></i> DATA BOOKINGS</h1>
         <table>
@@ -1195,14 +1173,7 @@ button[type="submit"]:hover::after {
 
       </div>
 
-      <div id="iklan" class="section">
-        <h1><i class="fas fa-images"></i> TAMBAH IKLAN</h1>
-        <form action="prs_tambah_gambar.php" method="post" enctype="multipart/form-data">
-            <label for="">Pilih Gambar Iklan</label>
-            <input type="file" name="gambar" id="" accept=".jpg,.jpeg,.png">
-            <input type="submit" value="Upload Iklan" name="submit" style="margin-top: 20px;">
-        </form>
-      </div>
+      
       
       
     </div>

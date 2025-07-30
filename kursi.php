@@ -2,6 +2,9 @@
 include "koneksi.php";
 session_start();
 if (isset($_POST['id_movies']) || isset($_POST['tanggal']) || isset($_POST['waktu'])) {
+    if (!isset($_POST['id_movies']) || !isset($_POST['tanggal']) || !isset($_POST['waktu'])) {
+        header("location:jadwal_film.php");
+    }
     $_SESSION['waktu'] = $_POST['waktu'];
     $_SESSION['tanggal'] = $_POST['tanggal'];
     $_SESSION['id_movies'] = $_POST['id_movies'];
@@ -11,6 +14,9 @@ if(!isset($_SESSION['username'])){
 }
 
 if(isset($_SESSION['id_movies']) || isset($_SESSION['tanggal']) || isset($_SESSION['waktu'])){
+    if(isset($_SESSION['id_movies']) || isset($_SESSION['tanggal']) || isset($_SESSION['waktu'])){
+        header("location:jadwal_film.php");
+    }
     $waktu = $_SESSION['waktu'];
     $tanggal = $_SESSION['tanggal'];
     $id_movies = $_SESSION['id_movies'];
@@ -575,7 +581,7 @@ while($row = mysqli_fetch_array($query2)){
         <div class="dropdown" id="dropdownMenu">
             <?php if(isset($_SESSION['username'])){ ?>
                 <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
-                <a href="keranjang.php"><button>keranjang</button></a>
+                <a href="keranjang.php"><button>Riwayat Transaksi</button></a>
                 <a href="logout.php"><button>Logout</button></a>
             <?php }else{ ?>
                 <a href="login.php"><button>Sign In</button></a>

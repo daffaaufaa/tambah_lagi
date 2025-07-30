@@ -557,7 +557,7 @@ footer::before {
         <div class="dropdown" id="dropdownMenu">
             <?php if(isset($_SESSION['username'])){ ?>
               <a href="profil_azfa.php"><button>Profil <?= $_SESSION['username'] ?></button></a>
-              <a href="keranjang.php"><button>keranjang</button></a>
+              <a href="keranjang.php"><button>Riwayat Transaksi</button></a>
               <a href="logout.php"><button>Logout</button></a>
                 
             <?php }else{ ?>
